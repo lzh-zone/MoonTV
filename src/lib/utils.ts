@@ -28,13 +28,10 @@ function getDoubanImageProxyConfig(): {
 }
 
 /**
- * 处理图片 URL（仅对豆瓣图片生效，默认使用 cmliussss-cdn-tencent CDN）
+ * 处理图片 URL（仅处理豆瓣图片，默认使用 cmliussss-cdn-tencent CDN）
  */
 export function processImageUrl(originalUrl: string): string {
-  if (!originalUrl) return originalUrl;
-
-  // 仅处理豆瓣图片
-  if (!originalUrl.includes('doubanio.com')) {
+  if (!originalUrl || !originalUrl.includes('doubanio.com')) {
     return originalUrl;
   }
 
@@ -57,7 +54,7 @@ export function processImageUrl(originalUrl: string): string {
       );
     case 'custom':
       return proxyUrl && proxyUrl.trim()
-        ? `${proxyUrl}${encodeURIComponent(originalUrl)}`
+        ? `${proxyUrl.trim()}${encodeURIComponent(originalUrl)}`
         : originalUrl;
     case 'direct':
     default:
@@ -66,7 +63,30 @@ export function processImageUrl(originalUrl: string): string {
 }
 
 /**
- * 轻量级 HTML 实体解码（替代 he 库）
+ * 获取豆瓣代理 URL（兼容旧代码）
+ */
+export function getDoubanProxyUrl(): string | null {
+  if (typeof window === 'undefined') return null;
+
+  const { proxyType, proxyUrl } = getDoubanImageProxyConfig();
+
+  if (proxyType === 'direct') return null;
+  if (proxyType === 'custom' && proxyUrl?.trim()) return proxyUrl.trim();
+  if (proxyType === 'server') return '/api/image-proxy?url=';
+
+  // CDN 类型不返回前缀代理
+  return null;
+}
+
+/**
+ * 处理豆瓣 URL（兼容旧代码，默认走 CDN）
+ */
+export function processDoubanUrl(originalUrl: string): string {
+  return processImageUrl(originalUrl);
+}
+
+/**
+ * 轻量级 HTML 实体解码（无需 he 包）
  */
 function decodeHtmlEntities(text: string): string {
   if (!text) return '';
@@ -78,9 +98,7 @@ function decodeHtmlEntities(text: string): string {
     .replace(/&apos;/g, "'")
     .replace(/&nbsp;/g, ' ')
     .replace(/&#(\d+);/g, (_, num) => String.fromCharCode(parseInt(num, 10)))
-    .replace(/&#x([a-fA-F0-9]+);/g, (_, hex) =>
-      String.fromCharCode(parseInt(hex, 16))
-    );
+    .replace(/&#x([a-fA-F0-9]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
 }
 
 export function cleanHtmlTags(text: string): string {
