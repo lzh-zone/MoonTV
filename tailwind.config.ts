@@ -31,7 +31,14 @@ const config: Config = {
           800: '#075985',
           900: '#0c4a6e',
         },
-        dark: '#222222',
+        // 添加暗色模式下的背景色
+        dark: '#0f172a',
+        // 添加玻璃拟态相关颜色
+        glass: {
+          light: 'rgba(255, 255, 255, 0.7)',
+          dark: 'rgba(15, 23, 42, 0.6)',
+          border: 'rgba(255, 255, 255, 0.2)',
+        },
       },
       keyframes: {
         flicker: {
