@@ -70,8 +70,8 @@ export default function HomeCarousel({ items }: HomeCarouselProps) {
 
               {/* 内容区域 */}
               <div className='relative z-10 w-full max-w-7xl mx-auto px-4 md:px-12 flex flex-col md:flex-row items-center md:items-end justify-center md:justify-start gap-6 md:gap-12 h-full pb-16 md:pb-24'>
-                {/* 海报图片 - 移动端隐藏或缩小 */}
-                <div className='hidden md:block relative shrink-0 w-48 md:w-64 aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform transition-transform duration-700 hover:scale-105 group-hover:shadow-[0_20px_60px_rgba(139,92,246,0.3)] border border-white/10 ring-1 ring-white/20'>
+                {/* 海报图片 - 移动端显示但缩小 */}
+                <div className='relative shrink-0 w-32 sm:w-40 md:w-64 aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform transition-transform duration-700 hover:scale-105 group-hover:shadow-[0_20px_60px_rgba(139,92,246,0.3)] border border-white/10 ring-1 ring-white/20 mb-4 md:mb-0'>
                   <Image
                     src={processImageUrl(item.poster)}
                     alt={item.title}
@@ -81,8 +81,8 @@ export default function HomeCarousel({ items }: HomeCarouselProps) {
                     referrerPolicy='no-referrer'
                   />
                   {/* 角标 */}
-                  <div className='absolute top-3 right-3 flex flex-col gap-2'>
-                    <div className='bg-violet-600/90 backdrop-blur-md text-white px-2 py-1 rounded-lg text-sm font-bold shadow-lg border border-white/10'>
+                  <div className='absolute top-2 right-2 md:top-3 md:right-3 flex flex-col gap-2'>
+                    <div className='bg-violet-600/90 backdrop-blur-md text-white px-1.5 py-0.5 md:px-2 md:py-1 rounded-lg text-xs md:text-sm font-bold shadow-lg border border-white/10'>
                       {item.rate}
                     </div>
                   </div>
