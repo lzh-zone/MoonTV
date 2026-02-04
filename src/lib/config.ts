@@ -243,7 +243,7 @@ async function initConfig() {
         SiteName: process.env.SITE_NAME || 'Z-MoonTV',
         Announcement:
           process.env.ANNOUNCEMENT ||
-`欢迎来到 Z-MOONTV —— 你的私人月球影院！本站所有影视资源均来自互联网公开渠道，仅供个人学习、交流、欣赏之用。
+          `欢迎来到 Z-MOONTV —— 你的私人月球影院！本站所有影视资源均来自互联网公开渠道，仅供个人学习、交流、欣赏之用。
 祝你追剧愉快！🚀`,
         SearchDownstreamMaxPage:
           Number(process.env.NEXT_PUBLIC_SEARCH_MAX_PAGE) || 10,
