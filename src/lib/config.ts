@@ -243,7 +243,7 @@ async function initConfig() {
         SiteName: process.env.SITE_NAME || 'Z-MoonTV',
         Announcement:
           process.env.ANNOUNCEMENT ||
-          '🌕 Z-MOONTV 官方公告
+          `🌕 Z-MOONTV 官方公告
 
 欢迎来到 Z-MOONTV —— 你的私人月球影院！🌕🍿
 
@@ -267,7 +267,7 @@ async function initConfig() {
 祝你追剧愉快！🚀
 
 —— Z-MOONTV 团队
-2026 年 2 月',
+2026 年 2 月`,
         SearchDownstreamMaxPage:
           Number(process.env.NEXT_PUBLIC_SEARCH_MAX_PAGE) || 10,
         SiteInterfaceCacheTime: fileConfig.cache_time || 7200,
