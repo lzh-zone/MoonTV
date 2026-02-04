@@ -240,12 +240,36 @@ async function initConfig() {
     // 本地存储直接使用文件配置
     cachedConfig = {
       SiteConfig: {
-        SiteName: process.env.SITE_NAME || 'MoonTV',
+        SiteName: process.env.SITE_NAME || 'Z-MoonTV',
         Announcement:
           process.env.ANNOUNCEMENT ||
-          '本网站仅提供影视信息搜索服务，所有内容均来自第三方网站。本站不存储任何视频资源，不对任何内容的准确性、合法性、完整性负责。',
+          '🌕 Z-MOONTV 官方公告
+
+欢迎来到 Z-MOONTV —— 你的私人月球影院！🌕🍿
+
+在这里，你可以：
+• 零广告、无弹窗，纯净追剧
+• 最新热播、经典老片、冷门佳作一网打尽
+• 高清片源 + 实时更新 + 多线路切换
+
+我们像月球表面一样干净，像火箭一样快，只为给你最好的观影体验！
+
+⚠️ 重要提醒：
+1. 本站所有影视资源均来自互联网公开渠道，仅供个人学习、交流、欣赏之用。
+2. Z-MOONTV 不提供资源存储服务，不参与任何上传、下载行为。
+3. 如资源涉及版权问题，我们会在收到有效通知后第一时间删除。
+4. 请尊重版权，支持正版！推荐前往腾讯视频、爱奇艺、优酷、Netflix 等官方平台观看。
+5. 本站部分内容可能包含成人、惊悚、暴力等元素，未满18周岁请在家长陪同下使用。
+6. 禁止将本站资源用于任何商业用途、非法传播或盈利行为。
+
+使用 Z-MOONTV 即表示您已阅读并同意以上条款。
+
+祝你追剧愉快！🚀
+
+—— Z-MOONTV 团队
+2026 年 2 月',
         SearchDownstreamMaxPage:
-          Number(process.env.NEXT_PUBLIC_SEARCH_MAX_PAGE) || 5,
+          Number(process.env.NEXT_PUBLIC_SEARCH_MAX_PAGE) || 10,
         SiteInterfaceCacheTime: fileConfig.cache_time || 7200,
         ImageProxy: process.env.NEXT_PUBLIC_IMAGE_PROXY || '',
         DoubanProxy: process.env.NEXT_PUBLIC_DOUBAN_PROXY || '',
