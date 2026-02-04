@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,no-console */
-import he from 'he';
 import Hls from 'hls.js';
 
 function getDoubanImageProxyConfig(): {
@@ -15,7 +14,7 @@ function getDoubanImageProxyConfig(): {
   const doubanImageProxyType =
     localStorage.getItem('doubanImageProxyType') ||
     (window as any).RUNTIME_CONFIG?.DOUBAN_IMAGE_PROXY_TYPE ||
-    'cmliussss-cdn-tencent';   // ← 默认使用 cmliussss-cdn-tencent CDN
+    'cmliussss-cdn-tencent'; // ← 默认使用 CDN
 
   const doubanImageProxy =
     localStorage.getItem('doubanImageProxyUrl') ||
@@ -66,18 +65,35 @@ export function processImageUrl(originalUrl: string): string {
   }
 }
 
+/**
+ * 轻量级 HTML 实体解码（替代 he 库）
+ */
+function decodeHtmlEntities(text: string): string {
+  if (!text) return '';
+  return text
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#(\d+);/g, (_, num) => String.fromCharCode(parseInt(num, 10)))
+    .replace(/&#x([a-fA-F0-9]+);/g, (_, hex) =>
+      String.fromCharCode(parseInt(hex, 16))
+    );
+}
+
 export function cleanHtmlTags(text: string): string {
   if (!text) return '';
 
   const cleanedText = text
-    .replace(/<[^>]+>/g, '\n') // 将 HTML 标签替换为换行
-    .replace(/\n+/g, '\n') // 将多个连续换行合并为一个
-    .replace(/[ \t]+/g, ' ') // 将多个连续空格和制表符合并为一个空格，但保留换行符
-    .replace(/^\n+|\n+$/g, '') // 去掉首尾换行
-    .trim(); // 去掉首尾空格
+    .replace(/<[^>]+>/g, '\n')
+    .replace(/\n+/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/^\n+|\n+$/g, '')
+    .trim();
 
-  // 使用 he 库解码 HTML 实体（如 &nbsp; &amp; 等）
-  return he.decode(cleanedText);
+  return decodeHtmlEntities(cleanedText);
 }
 
 /**
