@@ -48,29 +48,30 @@ export default function HomeCarousel({ items }: HomeCarouselProps) {
         }}
         navigation={true}
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
-        className='w-full h-[400px] md:h-[500px]'
+        className='w-full h-[500px] md:h-[600px] rounded-[32px]'
       >
         {carouselItems.map((item) => (
           <SwiperSlide key={item.id}>
             <div className='relative w-full h-full flex items-center justify-center overflow-hidden'>
-              {/* 背景：模糊处理的海报 */}
+              {/* 背景：大图模糊 */}
               <div className='absolute inset-0'>
                 <Image
                   src={processImageUrl(item.poster)}
                   alt={item.title}
                   fill
-                  className='object-cover blur-3xl opacity-50 scale-110'
+                  className='object-cover blur-2xl opacity-60 scale-110 dark:opacity-40'
                   priority
                   referrerPolicy='no-referrer'
                 />
-                <div className='absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent' />
-                <div className='absolute inset-0 bg-gradient-to-r from-gray-900/80 via-transparent to-transparent' />
+                {/* 渐变遮罩：移动端更重，保证文字可读性 */}
+                <div className='absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent' />
+                <div className='absolute inset-0 bg-gradient-to-r from-gray-900/80 via-transparent to-transparent hidden md:block' />
               </div>
 
               {/* 内容区域 */}
-              <div className='relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-8 md:gap-12'>
-                {/* 海报图片 */}
-                <div className='relative shrink-0 w-40 md:w-64 aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform transition-transform duration-700 hover:scale-105 group-hover:shadow-[0_20px_60px_rgba(139,92,246,0.3)] border border-white/10 ring-1 ring-white/20'>
+              <div className='relative z-10 w-full max-w-7xl mx-auto px-4 md:px-12 flex flex-col md:flex-row items-center md:items-end justify-center md:justify-start gap-6 md:gap-12 h-full pb-16 md:pb-24'>
+                {/* 海报图片 - 移动端隐藏或缩小 */}
+                <div className='hidden md:block relative shrink-0 w-48 md:w-64 aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform transition-transform duration-700 hover:scale-105 group-hover:shadow-[0_20px_60px_rgba(139,92,246,0.3)] border border-white/10 ring-1 ring-white/20'>
                   <Image
                     src={processImageUrl(item.poster)}
                     alt={item.title}
@@ -88,32 +89,43 @@ export default function HomeCarousel({ items }: HomeCarouselProps) {
                 </div>
 
                 {/* 信息及操作 */}
-                <div className='flex-1 text-center md:text-left text-white space-y-4 md:space-y-8 max-w-2xl'>
-                  <h2 className='text-3xl md:text-6xl font-extrabold tracking-tight drop-shadow-2xl'>
+                <div className='flex-1 text-center md:text-left text-white space-y-4 max-w-2xl px-4 md:px-0 w-full flex flex-col items-center md:items-start'>
+                  {/* 移动端显示的评分徽章 */}
+                  <div className='md:hidden flex items-center gap-2 mb-2'>
+                    <span className='bg-violet-600/90 backdrop-blur-md text-white px-2 py-0.5 rounded-lg text-xs font-bold shadow-lg'>
+                      豆瓣 {item.rate}
+                    </span>
+                    <span className='bg-white/10 backdrop-blur-md text-violet-200 px-2 py-0.5 rounded-lg text-xs border border-white/10'>
+                      {item.year}
+                    </span>
+                  </div>
+
+                  <h2 className='text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight drop-shadow-2xl leading-tight line-clamp-2 md:line-clamp-none'>
                     <span className='bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-violet-200'>
                       {item.title}
                     </span>
-                    <span className='ml-4 text-lg md:text-2xl font-light text-violet-200 bg-violet-500/10 px-3 py-1 rounded-xl backdrop-blur-md border border-white/10 align-middle'>
+                    {/* 桌面端年份显示 */}
+                    <span className='hidden md:inline-block ml-4 text-xl md:text-2xl font-light text-violet-200 bg-violet-500/10 px-3 py-1 rounded-xl backdrop-blur-md border border-white/10 align-middle'>
                       {item.year}
                     </span>
                   </h2>
 
-                  <div className='flex items-center justify-center md:justify-start gap-4'>
+                  <div className='flex items-center justify-center md:justify-start gap-4 pt-4 md:pt-6 w-full md:w-auto'>
                     <Link
-                      href='/douban?type=movie' // 既然是轮播，暂时跳到详情或搜索
+                      href='/douban?type=movie'
                       onClick={(e) => {
                         e.preventDefault();
-                        // 这里最好有一个直接去播放页的逻辑，但因为是豆瓣数据，可能需要先跳搜索
                         window.location.href = `/play?title=${encodeURIComponent(
                           item.title
                         )}&year=${item.year}`;
                       }}
+                      className='w-full md:w-auto'
                     >
-                      <button className='group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-violet-900 rounded-2xl font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.6)] hover:-translate-y-1 overflow-hidden border border-white/50'>
+                      <button className='group relative inline-flex items-center justify-center gap-3 px-8 py-3.5 md:py-4 bg-white text-violet-900 rounded-2xl font-bold text-base md:text-lg transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.6)] hover:-translate-y-1 overflow-hidden border border-white/50 w-full md:w-auto active:scale-95'>
                         <div className='absolute inset-0 bg-violet-100 translate-y-full skew-y-12 group-hover:translate-y-0 transition-transform duration-500 ease-out' />
                         <PlayCircle
-                          size={28}
-                          className='fill-violet-600 text-white relative z-10'
+                          size={24}
+                          className='fill-violet-600 text-white relative z-10 md:w-[28px] md:h-[28px]'
                         />
                         <span className='relative z-10'>立即观看</span>
                       </button>
